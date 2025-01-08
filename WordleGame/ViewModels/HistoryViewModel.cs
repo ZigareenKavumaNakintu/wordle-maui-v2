@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace WordleGame
 {
+    //viewmodel that will store the game status in files for each player
     public class HistoryViewModel: INotifyPropertyChanged
     {
         private GameViewModel _viewModel;
@@ -20,7 +21,7 @@ namespace WordleGame
             set
             {
                 _playerHistories = value;
-                System.Diagnostics.Debug.WriteLine($"playerHistories updated: {value.Count} entries");  // Debugging
+               
                 OnPropertyChanged(nameof(playerHistories));  // Notifies the UI that the collection has changed
             }
         }
@@ -29,11 +30,12 @@ namespace WordleGame
 
         }
 
-
+        //method that saves the game status of the particular player
         public void writePlayerHistory(string playerName, PlayerHistory playerHistory)
         {
             try
             {
+                //store the status to each player in the file
                 string fileName = $"{playerName}_history.json";
                 string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
 
@@ -49,11 +51,13 @@ namespace WordleGame
                     string existingData = File.ReadAllText(targetFile);
                     historyList = JsonSerializer.Deserialize<List<PlayerHistory>>(existingData) ?? new List<PlayerHistory>();
                 }
+                //add it to the historyList
                 historyList.Add(playerHistory);
 
+                //save and write  the data to a json file 
                 string jsonlist = JsonSerializer.Serialize(historyList);
                 File.WriteAllText(targetFile, jsonlist);
-                System.Diagnostics.Debug.WriteLine("Player history saved successfully.");
+                
 
             }
             catch (Exception ex)
@@ -63,6 +67,7 @@ namespace WordleGame
 
         }
 
+        //method to load the game status history of the player
         public void LoadPlayerHistory(string playerName)
         {
             try
@@ -74,14 +79,12 @@ namespace WordleGame
 
                 if (File.Exists(targetFile))
                 {
+                    //all the data that is in the file is read and then added to the historyList which then fills the observable collection
                     string existingData = File.ReadAllText(targetFile);
-                    System.Diagnostics.Debug.WriteLine($"File content: {existingData}");
-
                     var historyList = JsonSerializer.Deserialize<List<PlayerHistory>>(existingData) ?? new List<PlayerHistory>();
                     playerHistories = new ObservableCollection<PlayerHistory>(historyList);
 
-                    // Log the number of history entries loaded
-                    System.Diagnostics.Debug.WriteLine($"Loaded {historyList.Count} history entries.");
+                    
                     foreach (var history in playerHistories)
                     {
                         System.Diagnostics.Debug.WriteLine($"PlayerName: {history.PlayerName}, TimeTaken: {history.TimeTaken}");
@@ -89,7 +92,7 @@ namespace WordleGame
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("No history file found.");
+                  //if the file doesnt exist make a new observable collection
                     playerHistories = new ObservableCollection<PlayerHistory>();
                 }
             }

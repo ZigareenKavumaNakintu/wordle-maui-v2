@@ -5,6 +5,7 @@ namespace WordleGame
     [QueryProperty(nameof(PlayerName), "playerName")]
     public partial class SavingsPage : ContentPage
     {
+
         private HistoryViewModel historyViewModel;
         public string PlayerName { get; set; }
 
@@ -30,19 +31,11 @@ namespace WordleGame
         {
             base.OnAppearing();
 
-            // Verify that the PlayerName is correctly passed
-            System.Diagnostics.Debug.WriteLine($"PlayerName in SavingsPage: {PlayerName}");
-            // Log the player name
-
             historyViewModel.LoadPlayerHistory(PlayerName);  // Load the history
-
-            // Log the count of history items after loading
-            Console.WriteLine($"Loaded {historyViewModel.playerHistories.Count} history items.");
-            System.Diagnostics.Debug.WriteLine($"Loaded {historyViewModel.playerHistories.Count} history items.");
-
             // Check if data is being populated
             System.Diagnostics.Debug.WriteLine($"Number of histories: {historyViewModel.playerHistories.Count}");
         }
+
         /*
         private void setBackgroundColor()
         {

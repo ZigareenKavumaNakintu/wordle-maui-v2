@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace WordleGame
 {
+    //class thet holds the variables to be display in the history page
     public class PlayerHistory
     {
         public int Attempts {  get; set; }

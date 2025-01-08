@@ -1,7 +1,8 @@
 
 //using WordleGame.ViewModels;
-
+using Plugin.Maui.Audio;
 namespace WordleGame;
+//player name is passed from the mainpage to the gamepage through a query parameter
 [QueryProperty(nameof(PlayerName), "playerName")]
 public partial class gamePage : ContentPage
 {
@@ -12,11 +13,13 @@ public partial class gamePage : ContentPage
     private string _playerName;
     private GameViewModel viewModel;
     private HistoryViewModel historyViewModel;
+    //colors for the pages
     private readonly Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
     private readonly Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
     private readonly Color LightTextColor = Color.FromRgb(0, 0, 0);
     private readonly Color DarkTextColor = Color.FromRgb(255, 255, 255);
 
+    private IAudioPlayer _player;
 
     public string PlayerName
     {
@@ -38,12 +41,11 @@ public partial class gamePage : ContentPage
 
         if (!string.IsNullOrEmpty(PlayerName))
         {
-            System.Diagnostics.Debug.WriteLine($"PlayerName: {PlayerName}");
+            
             playerMessage();  // This will display the player's name
         }
 
-        // playerName = name;
-        // InitializeViewModel();
+        //load the history of the player
         historyViewModel.LoadPlayerHistory(PlayerName);
         setBackgroundColor();
         SetLabelTextColor();
@@ -60,14 +62,14 @@ public partial class gamePage : ContentPage
             {
                 if (child is Frame frame)
                 {
-                    // Set frame background color
+                   
                     frame.BackgroundColor = Colors.White;
 
                     // Check if the content of the frame is an Entry, and apply the theme
                     if (frame.Content is Entry entry)
                     {
-                        entry.TextColor = DarkTextColor; // Set text color for Entry
-                        entry.BackgroundColor = Colors.White; // Set background color for Entry
+                        entry.TextColor = DarkTextColor; 
+                        entry.BackgroundColor = Colors.White; 
                     }
                 }
                 else if (child is Label label)
@@ -98,8 +100,8 @@ public partial class gamePage : ContentPage
                     // Check if the content of the frame is an Entry, and apply the theme
                     if (frame.Content is Entry entry)
                     {
-                        entry.TextColor = LightTextColor; // Set text color for Entry
-                        entry.BackgroundColor = Colors.White; // Set background color for Entry
+                        entry.TextColor = LightTextColor; 
+                        entry.BackgroundColor = Colors.White; 
                     }
                 }
                 else if (child is Label label)
@@ -109,7 +111,7 @@ public partial class gamePage : ContentPage
                 }
                 else if (child is Button button)
                 {
-                    // Apply text color to buttons
+                    
                     button.TextColor = LightTextColor;
                 }
             }
@@ -125,19 +127,19 @@ public partial class gamePage : ContentPage
         }
     }
 
-
+    //this happens when the page is loaded
     protected override async void OnAppearing()
     {
 
         base.OnAppearing();
        // DisplayAlert("Welcome", $"Hello, {playerName}! Let's play Wordle!", "OK");
-        await viewModel.MakeWordList();
+        await viewModel.MakeWordList();//get the random word that will be guessed from the viewModel
+
         viewModel.StartTimerCommand.Execute(null); //start the timer
         makeGrid();
     }
     private void makeGrid()
     {
-
         //clear the grid at the beginning
         GridContent.RowDefinitions.Clear();
         GridContent.ColumnDefinitions.Clear();
@@ -161,7 +163,6 @@ public partial class gamePage : ContentPage
 
                 var letterEntry = new Entry
                 {
-                    //Placeholder = $"Row {i + 1}, Col {j + 1}",
                     BackgroundColor = Colors.LightBlue,
                     TextColor = Colors.Black,
                     
@@ -171,6 +172,7 @@ public partial class gamePage : ContentPage
                 };
 
                 letterEntry.TextChanged += (sender, args) => OnEntryTextChanged(sender, args, i, j);
+                //enclose the grid in a frame 
                 var entryFrame = new Frame
                 {
                     Content = letterEntry,
@@ -183,7 +185,6 @@ public partial class gamePage : ContentPage
                 };
 
                 //add the content to the grid
-                //GridContent.Add(letterEntry,i,j);
                 GridContent.Children.Add(entryFrame);
                 Grid.SetRow(entryFrame, i);
                 Grid.SetColumn(entryFrame, j);
@@ -216,7 +217,7 @@ public partial class gamePage : ContentPage
                 var nextEntry = nextFrame?.Content as Entry;
                 if (nextEntry != null)
                 {
-                    // Add a slight delay to ensure smooth focus transition
+                   
                     await Task.Delay(100);
                     nextEntry.Focus();
                 }
@@ -250,6 +251,7 @@ public partial class gamePage : ContentPage
             {
                 var entry = frame.Content as Entry;
 
+                //datchecking of the inputs
                 if (entry != null)
                 {
                     string input = entry.Text?.Trim() ?? "";
@@ -267,7 +269,7 @@ public partial class gamePage : ContentPage
                     }
                     else
                     {
-                        //change all the letter to lower case incase the input is uppercase
+                        //change all the letter to lower case incase the input is uppercase or not uniform
                         inputWord += input.ToLower();
 
                     }
@@ -294,6 +296,7 @@ public partial class gamePage : ContentPage
         }
 
     }
+
     //method to get the current position of the entry in the frame
     private Frame getPosition(int row, int col)
     {
@@ -307,9 +310,10 @@ public partial class gamePage : ContentPage
         }
         return null;
     }
-    //method to compare the wrord and logic with the colours
+    //method to compare the word and logic with the colours
     private async Task CompareWords(int rowNumber)
     {
+        //get the input string
         string playerGuess = await formWord(rowNumber);
 
         if (string.IsNullOrEmpty(playerGuess))
@@ -333,19 +337,20 @@ public partial class gamePage : ContentPage
                 {
                     {
                         //System.Diagnostics.Debug.WriteLine($"Correct Word Letter: {correctWord[col]}");
+                        //if the letter is in the correct position
                         if (inputLetter == correctWord[col].ToString())
                         {
                             letterEntry.BackgroundColor = Colors.Green;
                             gameFrame.BackgroundColor = Colors.Green;
                             greenCount++;//keeps track of the entries that change to green
                         }
-
+                        //if the letter is in the word but at the wrong position
                         else if (correctWord.Contains(inputLetter))
                         {
                             letterEntry.BackgroundColor = Colors.Yellow;
                             gameFrame.BackgroundColor = Colors.Yellow;
                         }
-
+                        //if the letter is not in the word
                         else
                         {
                             letterEntry.BackgroundColor = Colors.DarkGrey;
@@ -356,7 +361,7 @@ public partial class gamePage : ContentPage
 
             }
         }
-        //if all the letters are correct then end the bgame and the player wins
+        //if all the letters are correct then end the game and the player wins
         if(greenCount == cols)
         {
             await EndGame(rowNumber,true);
@@ -384,7 +389,7 @@ public partial class gamePage : ContentPage
         {
             try
             {
-                await EndGame(rows, false);
+                await EndGame(rows-1, false);
             }
             catch (Exception ex)
             {
@@ -400,7 +405,9 @@ public partial class gamePage : ContentPage
         //stop the timer(toggle the state of the timer)
         viewModel.StartTimerCommand.Execute(null);
 
+        //save the status of the player's game after the game ends either after wining or a loss
         SaveHistory(viewModel.currentWord, rowNumber + 1, isWin);
+
         if (isWin)
         {
             await Shell.Current.DisplayAlert("Game Over", $"Well Done. You took {rowNumber + 1} guesses", "ok");
@@ -435,6 +442,7 @@ public partial class gamePage : ContentPage
 
        // string playerName = _playerName;
 
+        //the variables that are stored 
         var gameHistory = new PlayerHistory
         {
             CorrectWord = correctWord,
@@ -458,6 +466,7 @@ public partial class gamePage : ContentPage
        // historyViewModel.Load
     }
     */
+    //rest the game as well as the timer and get a new word
     private void ResetGame()
     {
         guess = 0;
@@ -481,6 +490,7 @@ public partial class gamePage : ContentPage
         viewModel.MakeWordList();
         makeGrid();
         viewModel.ResetTimer();
+
         //re-enable the button
         Submit.IsEnabled = true;
       
@@ -498,7 +508,7 @@ public partial class gamePage : ContentPage
     //Method to navigate to the history page
     private async void ImageButton_Clicked_1(object sender, EventArgs e)
     {
-        System.Diagnostics.Debug.WriteLine($"Navigating to SavingsPage with playerName: {PlayerName}");
+       // System.Diagnostics.Debug.WriteLine($"Navigating to SavingsPage with playerName: {PlayerName}");
         await Shell.Current.GoToAsync($"SavingsPage?playerName={PlayerName}");
     }
 

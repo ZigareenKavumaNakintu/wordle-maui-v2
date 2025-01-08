@@ -13,9 +13,10 @@
              WidthRequest="50" HorizontalOptions="End" VerticalOptions="End" Clicked="ImageButton_Clicked_1"/>
             <ImageButton Source="settings.png" BackgroundColor="LightGray" HeightRequest="50" WidthRequest="50"
                         HorizontalOptions="Start" VerticalOptions="Start" Clicked="ImageButton_Clicked"/>
-            <Label Text="{Binding currentWord}" FontSize="40" HorizontalOptions="Center" />
+            
+          <!--  <Label Text="{Binding currentWord}" FontSize="40" HorizontalOptions="Center" /> -->
             <Label x:Name="pageMessage"  Text="Welcome to Wordle" HorizontalOptions="CenterAndExpand"/>
-           
+           <!--Grid for the game-->
             <Grid x:Name="GridContent" BackgroundColor="transparent"
         HeightRequest="400" WidthRequest="300"
         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" RowSpacing="6" ColumnSpacing="6" Padding="6">

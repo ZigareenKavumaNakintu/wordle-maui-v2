@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace WordleGame
 {
     public class GameViewModel :INotifyPropertyChanged
@@ -88,7 +89,7 @@ namespace WordleGame
                 {
                     isDarkTheme = value;
                     OnPropertyChanged(nameof(IsDarkTheme));
-                    Preferences.Set("IsDarkTheme", value);
+                    Preferences.Set("IsDarkTheme", isDarkTheme);
                 }
 
                // IsDarkTheme = value;
@@ -104,7 +105,8 @@ namespace WordleGame
                 if (fontSize != value)
                 {
                     fontSize = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(FontSize));
+                    Preferences.Set("FontSize", fontSize);
                 }
 
 
@@ -113,6 +115,7 @@ namespace WordleGame
         
         public GameViewModel()
         {
+            //gets the word list from the file that was saved on the computer
             getWords = new GetWordList();
             word = new Random();
             Words = new ObservableCollection<string>();
@@ -139,16 +142,14 @@ namespace WordleGame
                     timer.Start();
                 IsPlaying = !isPlaying;//toggles the playing state
             });
-        }
-
-        
-       
+        }   
 
         //method to display the time
         public string displayTimer
         {
             get => $"{Count /60:D2}: {Count %60:D2}";
         }
+
         //method to load words into memory and store them in list
         public async Task MakeWordList()
         {
@@ -161,8 +162,10 @@ namespace WordleGame
             {
                  Words.Add(word);
             }
-                 RandomiseWords();
-            }
+            
+           
+            RandomiseWords();
+        }
 
         //method to randomise the words 
         public void RandomiseWords()
@@ -172,7 +175,7 @@ namespace WordleGame
                 currentWord = Words[word.Next(Words.Count)];
             }
         }
-
+        //method that resests timer when the game has restarted
         public void  ResetTimer()
         {
             Count = 0;

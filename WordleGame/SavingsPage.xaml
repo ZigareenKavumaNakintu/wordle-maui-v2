@@ -9,53 +9,34 @@
     <ScrollView x:Name="mainPage">
         <VerticalStackLayout>
         <Label x:Name="Heading" Text="GAME STATISTICS" HorizontalOptions="CenterAndExpand"/>
-       
-        <CollectionView ItemsSource="{Binding playerHistories}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:Name="historyContent" Padding="10" Margin="5" BackgroundColor="Transparent" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <!-- Correct Word -->
-                        <Label Text="{Binding CorrectWord, StringFormat='Correct Word: {0}'}"
-                                   Grid.Row="1"
-                                   FontSize="16" TextColor="#555"
-                                   HorizontalOptions="Start" />
 
-                        <!-- Attempts -->
-                        <Label Text="{Binding Attempts, StringFormat='Attempts: {0}'}"
-                                   Grid.Row="2"
-                                   FontSize="16"
-                                   TextColor="#777"
-                                   HorizontalOptions="Start" />
+            <CollectionView ItemsSource="{Binding playerHistories}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="historyContent" Padding="10" Margin="5" BackgroundColor="Transparent" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <!-- Correct Word -->
+                            <Label Text="{Binding CorrectWord, StringFormat='Correct Word: {0}'}" Grid.Row="1" FontSize="16" TextColor="#555" HorizontalOptions="Start" />
 
-                        <!-- Time Taken with Units -->
-                        <Label Text="{Binding TimeTaken, StringFormat='Time: {0} sec'}"
-                                   Grid.Row="3"
-                                   FontSize="16"
-                                   TextColor="#777"
-                                   HorizontalOptions="Start" />
+                            <!-- Attempts -->
+                            <Label Text="{Binding Attempts, StringFormat='Attempts: {0}'}" Grid.Row="2"  FontSize="16" TextColor="#777" HorizontalOptions="Start" />
 
-                        <!-- State (True/False) -->
-                        <Label Text="{Binding State, StringFormat='State: {0}'}"
-                                   Grid.Row="4"
-                                   FontSize="16"
-                                   TextColor="{Binding State, Converter={StaticResource BoolToColorConverter}}"
-                                   HorizontalOptions="Start" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-   
-    
+                            <!-- Time Taken with Units -->
+                            <Label Text="{Binding TimeTaken, StringFormat='Time: {0} sec'}"  Grid.Row="3" FontSize="16" TextColor="#777" HorizontalOptions="Start" />
 
-
-        <Button x:Name="backButton" Text="Back To GamePage" Clicked="backButton_Clicked"/>
+                            <!-- State (True/False) -->
+                            <Label Text="{Binding State, StringFormat='State: {0}'}" Grid.Row="4" FontSize="16" TextColor="{Binding State}" HorizontalOptions="Start" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button x:Name="backButton" Text="Back To GamePage" Clicked="backButton_Clicked"/>
     </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

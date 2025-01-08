@@ -11,7 +11,7 @@
 
             <Label Text="Wordle Game" FontSize="24" HorizontalOptions="Center" />
 
-            <!-- Display the list of words -->
+            
             <Frame BorderColor="Transparent" BackgroundColor="Transparent">
                 <VerticalStackLayout>
                 <Label x:Name="Login" Text="LOG IN " VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
@@ -20,10 +20,10 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Display the list of words -->
+           
            
 
-            <Button x:Name="StartGame" Text="START GAME" Clicked="StartGame_Clicked" HorizontalOptions="CenterAndExpand"/>
+            <Button x:Name="StartGame" Text="START GAME" Clicked="StartGame_Clicked" HorizontalOptions="CenterAndExpand" BackgroundColor="LightBlue" Background="LightBlue"/>
         </VerticalStackLayout>
     </ScrollView>
 

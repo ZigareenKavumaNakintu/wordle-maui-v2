@@ -21,5 +21,10 @@
     ContentTemplate="{DataTemplate local:SavingsPage}"
     Route="SavingsPage" />
 
+    <ShellContent
+     Title="Settings"
+     ContentTemplate="{DataTemplate local:Settings}"
+     Route="Settings" />
+
 
 </Shell>

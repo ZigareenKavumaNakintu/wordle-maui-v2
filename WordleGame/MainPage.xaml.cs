@@ -1,4 +1,5 @@
 ﻿
+
 namespace WordleGame
 {
     public partial class MainPage : ContentPage
@@ -15,17 +16,15 @@ namespace WordleGame
 
             viewModel = new GameViewModel();
             BindingContext = viewModel;
+            LoadTheme();
 
-            
-
-            if(viewModel.IsDarkTheme == true)
+            viewModel.PropertyChanged += (sender, args) =>
             {
-                darkTheme();
-            }
-            else
-            {
-                lightTheme();
-            }
+                if (args.PropertyName == nameof(GameViewModel.IsDarkTheme))
+                {
+                    ApplyTheme(viewModel.IsDarkTheme);
+                }
+            };
 
         }
        
@@ -35,11 +34,12 @@ namespace WordleGame
 
             try
             {
-                string playerName = NameEntry.Text?.Trim();
+                string playerName = NameEntry.Text?.Trim().ToUpper();
                 // await Navigation.PushAsync(new gamePage(playerName));
 
                 if (!string.IsNullOrEmpty(playerName))
                 {
+                    //move to the next page but take the playerName as a query parameter
                     await Shell.Current.GoToAsync($"gamePage?playerName={playerName}");
                 }
                 else
@@ -54,28 +54,28 @@ namespace WordleGame
             //await Navigation.PushAsync(new gamePage());
 
         }
-
-        private void darkTheme()
+        private void LoadTheme()
         {
-           mainPage.BackgroundColor = DarkBackgroundColor;
-           NameEntry.TextColor = DarkTextColor;
-           NameEntry.PlaceholderColor = DarkTextColor;
-           Login.TextColor = DarkTextColor;
-           Player.TextColor = DarkTextColor;
-           StartGame.BackgroundColor = Colors.LightBlue;
-           StartGame.TextColor = DarkTextColor;
+            // Get the theme value from Preferences
+            viewModel.IsDarkTheme = Preferences.Get("IsDarkTheme", false);
 
+            
+            ApplyTheme(viewModel.IsDarkTheme);
         }
 
-        private void lightTheme()
+        private void ApplyTheme(bool isDarkTheme)
         {
-            mainPage.BackgroundColor = LightBackgroundColor;
-            NameEntry.TextColor = LightTextColor;
-            NameEntry.PlaceholderColor = LightTextColor;
-            Login.TextColor = LightTextColor;
-            Player.TextColor = LightTextColor;
-            StartGame.BackgroundColor = LightBackgroundColor;
-            StartGame.TextColor = LightTextColor;
+            this.BackgroundColor = isDarkTheme ? DarkBackgroundColor : LightBackgroundColor;
+
+            NameEntry.TextColor = isDarkTheme ? DarkTextColor : LightTextColor;
+            NameEntry.PlaceholderColor = isDarkTheme ? DarkTextColor : LightTextColor;
+
+            Login.TextColor = isDarkTheme ? DarkTextColor : LightTextColor;
+            Player.TextColor = isDarkTheme ? DarkTextColor : LightTextColor;
+
+            StartGame.BackgroundColor = isDarkTheme ? Colors.LightBlue : LightBackgroundColor;
+            StartGame.TextColor = isDarkTheme ? DarkTextColor : LightTextColor;
         }
     }
 }
+

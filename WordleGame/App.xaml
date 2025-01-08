@@ -5,9 +5,7 @@
              x:Class="WordleGame.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="BackgroundColor">#ffffff</Color>
-            <Color x:Key="TextColor">#000000</Color>
-
+           
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
