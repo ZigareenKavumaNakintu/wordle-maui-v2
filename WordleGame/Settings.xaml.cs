@@ -48,6 +48,6 @@ public partial class Settings : ContentPage
 
 
 
-
+    
     }
 
