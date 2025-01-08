@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="WordleGame.MainPage"
+             xmlns:viewmodel="clr-namespace:WordleGame"
+             x:DataType="viewmodel:GameViewModel"
+             Title="">
+             
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <Label Text="Wordle Game" FontSize="24" HorizontalOptions="Center" />
+
+            <!-- Display the list of words -->
+            <Frame BorderColor="Transparent" BackgroundColor="Transparent">
+                <VerticalStackLayout>
+                <Label x:Name="Login" Text="LOG IN " VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <Label x:Name="Player" Text="ENTER PLAYER NAME" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                <Entry x:Name="NameEntry" Placeholder="Enter your name" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Display the list of words -->
+           
+
+            <Button x:Name="StartGame" Text="START GAME" Clicked="StartGame_Clicked" HorizontalOptions="CenterAndExpand"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

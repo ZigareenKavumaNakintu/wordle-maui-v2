@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WordleGame.gamePage"
+             xmlns:viewmodel ="clr-namespace:WordleGame"
+             x:DataType="viewmodel:GameViewModel"
+             Title="gamePage">
+    <ScrollView>
+
+        <VerticalStackLayout >
+            <ImageButton Source="history.png" BackgroundColor="LightGray"
+             HeightRequest="50" 
+             WidthRequest="50" HorizontalOptions="End" VerticalOptions="End" Clicked="ImageButton_Clicked_1"/>
+            <ImageButton Source="settings.png" BackgroundColor="LightGray" HeightRequest="50" WidthRequest="50"
+                        HorizontalOptions="Start" VerticalOptions="Start" Clicked="ImageButton_Clicked"/>
+            <Label Text="{Binding currentWord}" FontSize="40" HorizontalOptions="Center" />
+            <Label x:Name="pageMessage"  Text="Welcome to Wordle" HorizontalOptions="CenterAndExpand"/>
+           
+            <Grid x:Name="GridContent" BackgroundColor="Transparent"
+        HeightRequest="400" WidthRequest="500"
+        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" RowSpacing="6" ColumnSpacing="6" Padding="6">
+
+            </Grid>
+
+            <Label x:Name="TimerDisplay" Text="{Binding displayTimer}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+            <Button x:Name="Submit" Text="SUBMIT WORD" Clicked="Submit_Clicked" HorizontalOptions="CenterAndExpand"/>
+            
+            <Button x:Name="Restart" Text="START A NEW GAME" Clicked="Restart_Clicked" HorizontalOptions="CenterAndExpand" Padding="10" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
