@@ -1,9 +1,12 @@
-﻿namespace WordleGame
+﻿
+namespace WordleGame
 {
     public partial class MainPage : ContentPage
     {
-        Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
-        Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
+        private readonly Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
+        private readonly Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
+        private readonly Color LightTextColor = Color.FromRgb(0, 0, 0);
+        private readonly Color DarkTextColor = Color.FromRgb(255, 255, 255);
 
         private GameViewModel viewModel;
         public MainPage()
@@ -13,10 +16,19 @@
             viewModel = new GameViewModel();
             BindingContext = viewModel;
 
-            bool isDarkTheme = Preferences.Get("IsDarkTheme", true);
-            this.BackgroundColor = isDarkTheme ? LightBackgroundColor : DarkBackgroundColor;
+            
+
+            if(viewModel.IsDarkTheme == true)
+            {
+                darkTheme();
+            }
+            else
+            {
+                lightTheme();
+            }
 
         }
+       
 
         private  async void StartGame_Clicked(object sender, EventArgs e)
         {
@@ -41,6 +53,29 @@
             }
             //await Navigation.PushAsync(new gamePage());
 
+        }
+
+        private void darkTheme()
+        {
+           mainPage.BackgroundColor = DarkBackgroundColor;
+           NameEntry.TextColor = DarkTextColor;
+           NameEntry.PlaceholderColor = DarkTextColor;
+           Login.TextColor = DarkTextColor;
+           Player.TextColor = DarkTextColor;
+           StartGame.BackgroundColor = Colors.LightBlue;
+           StartGame.TextColor = DarkTextColor;
+
+        }
+
+        private void lightTheme()
+        {
+            mainPage.BackgroundColor = LightBackgroundColor;
+            NameEntry.TextColor = LightTextColor;
+            NameEntry.PlaceholderColor = LightTextColor;
+            Login.TextColor = LightTextColor;
+            Player.TextColor = LightTextColor;
+            StartGame.BackgroundColor = LightBackgroundColor;
+            StartGame.TextColor = LightTextColor;
         }
     }
 }

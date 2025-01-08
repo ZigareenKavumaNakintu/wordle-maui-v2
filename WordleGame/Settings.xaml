@@ -4,12 +4,12 @@
              x:Class="WordleGame.Settings"
              xmlns:viewmodel ="clr-namespace:WordleGame"
              x:DataType="viewmodel:GameViewModel"
-             Title="Settings">
-    <VerticalStackLayout>
+             Title="">
+    <VerticalStackLayout x:Name="mainPage">
         <!--Change the theme of the app -->
-        <Label x:Name="ThemeChange" Text="Change the theme of the app ." TextColor="{DynamicResource TextColor}"/>
-        <Switch x:Name="ThemeSwitch" Toggled="ThemSwitch_Toggled"/>
+        <Label x:Name="ThemeChange" Text="Change the theme of the app ." />
+        <Switch x:Name="ThemeSwitch" IsToggled="{Binding IsDarkTheme}"/>
 
-        <Button x:Name="BackButton" Text="Back to the game" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="BackButton_Clicked"/>
+        <Button x:Name="BackButton" Text="Back to the game" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Clicked="BackButton_Clicked" TextColor="{DynamicResource LightTextColor}"/>
     </VerticalStackLayout>
 </ContentPage>

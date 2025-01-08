@@ -1,39 +1,53 @@
-namespace WordleGame;
 
+namespace WordleGame;
+[QueryProperty(nameof(PlayerName), "playerName")]
 public partial class Settings : ContentPage
 {
-    //private GameViewModel _viewModel;
+   // private GameViewModel viewModel;
+    private GameViewModel _viewModel;
     private bool isDarkTheme;
-    Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
-    Color DarkBackgroundColor = Color.FromRgb(0,0,0);
+    public string PlayerName { get; set; }
+    private readonly Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
+    private readonly Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
+    private readonly Color LightTextColor = Color.FromRgb(0, 0, 0);
+    private readonly Color DarkTextColor = Color.FromRgb(255, 255, 255);
     public Settings()
-	{
-		InitializeComponent();
-		BindingContext = new GameViewModel();
-        //load the preferences
-        isDarkTheme = Preferences.Get("IsDarkTheme", true);
-        ThemeSwitch.IsToggled = isDarkTheme;
-        this.BackgroundColor = isDarkTheme ? LightBackgroundColor : DarkBackgroundColor;    
-	}
+    {
+        InitializeComponent();
+        BindingContext = _viewModel;
+        //setBackgroundColor();
+
+
+    }
 
     private async void BackButton_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("gamePage");
+        await Shell.Current.GoToAsync($"gamePage?playerName={PlayerName}");
     }
-
-    private void ThemSwitch_Toggled(object sender, ToggledEventArgs e)
+    /*
+    private void setBackgroundColor()
     {
-        isDarkTheme = e.Value;
-        Preferences.Set("IsDarkTheme",isDarkTheme);
-
-        if (isDarkTheme) {
-            this.BackgroundColor = LightBackgroundColor;
-            
-            
-        }
-        else
+        if (_viewModel.IsDarkTheme == true)
         {
-            this.BackgroundColor = DarkBackgroundColor;
+            mainPage.BackgroundColor = DarkBackgroundColor;
+            ThemeChange.BackgroundColor = DarkBackgroundColor;
+            BackButton.BackgroundColor = Colors.LightBlue;
+
+
         }
+        //if darkmode is turned on
+        else if (_viewModel.IsDarkTheme == false)
+        {
+            mainPage.BackgroundColor = LightBackgroundColor;
+            ThemeChange.BackgroundColor = LightBackgroundColor;
+            BackButton.BackgroundColor = Colors.LightBlue;
+
+
+        }
+    */
+
+
+
+
     }
-}
+

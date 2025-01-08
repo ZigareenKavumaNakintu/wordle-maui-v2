@@ -4,8 +4,8 @@
              x:Class="WordleGame.gamePage"
              xmlns:viewmodel ="clr-namespace:WordleGame"
              x:DataType="viewmodel:GameViewModel"
-             Title="gamePage">
-    <ScrollView>
+             Title="">
+    <ScrollView x:Name="mainPage">
 
         <VerticalStackLayout >
             <ImageButton Source="history.png" BackgroundColor="LightGray"
@@ -16,8 +16,8 @@
             <Label Text="{Binding currentWord}" FontSize="40" HorizontalOptions="Center" />
             <Label x:Name="pageMessage"  Text="Welcome to Wordle" HorizontalOptions="CenterAndExpand"/>
            
-            <Grid x:Name="GridContent" BackgroundColor="Transparent"
-        HeightRequest="400" WidthRequest="500"
+            <Grid x:Name="GridContent" BackgroundColor="transparent"
+        HeightRequest="400" WidthRequest="300"
         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" RowSpacing="6" ColumnSpacing="6" Padding="6">
 
             </Grid>

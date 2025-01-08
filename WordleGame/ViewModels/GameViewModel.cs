@@ -19,8 +19,8 @@ namespace WordleGame
         private int count;
         private System.Timers.Timer timer;
         private bool isPlaying = false;
-        //private bool isDarkTheme;
-
+        private bool isDarkTheme;
+        private double fontSize;
         public ObservableCollection<string> Words { get; set; }
         public Command StartTimerCommand { get; }
         public Command ChangeThemeCommand { get; set; }
@@ -75,15 +75,51 @@ namespace WordleGame
             }
         }
 
+        public bool IsDarkTheme
+        {
+            get => Preferences.Get("IsDarkTheme", false);
+            set
+            {
+                if(isDarkTheme == value)
+
+                {  return; }
+                   
+                else if(isDarkTheme != value)
+                {
+                    isDarkTheme = value;
+                    OnPropertyChanged(nameof(IsDarkTheme));
+                    Preferences.Set("IsDarkTheme", value);
+                }
+
+               // IsDarkTheme = value;
+
+            }
+        }
+
+        public double FontSize
+        {
+            get => fontSize;
+            set
+            {
+                if (fontSize != value)
+                {
+                    fontSize = value;
+                    OnPropertyChanged();
+                }
+
+
+            }
+        }
         
         public GameViewModel()
         {
             getWords = new GetWordList();
             word = new Random();
             Words = new ObservableCollection<string>();
-            
-           
-           
+
+            IsDarkTheme = Preferences.Get("IsDarkTheme", IsDarkTheme);
+            FontSize = Preferences.Get("FontSize", FontSize);
+
             //Setting a timer that will measure the amount of time a player takes to finish the game
             timer = new System.Timers.Timer
             {
@@ -144,7 +180,13 @@ namespace WordleGame
             IsPlaying = false;
         }
 
-        
+        public void SaveChanges()
+        {
+            Preferences.Set("IsDarkTheme", IsDarkTheme);
+            Preferences.Set("FontSize", FontSize);
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

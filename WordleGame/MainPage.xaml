@@ -5,8 +5,8 @@
              xmlns:viewmodel="clr-namespace:WordleGame"
              x:DataType="viewmodel:GameViewModel"
              Title="">
-             
-    <ScrollView>
+
+    <ScrollView x:Name="mainPage">
         <VerticalStackLayout>
 
             <Label Text="Wordle Game" FontSize="24" HorizontalOptions="Center" />
@@ -15,7 +15,7 @@
             <Frame BorderColor="Transparent" BackgroundColor="Transparent">
                 <VerticalStackLayout>
                 <Label x:Name="Login" Text="LOG IN " VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
-                <Label x:Name="Player" Text="ENTER PLAYER NAME" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                    <Label x:Name="Player" Text="ENTER PLAYER NAME" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
                 <Entry x:Name="NameEntry" Placeholder="Enter your name" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
                 </VerticalStackLayout>
             </Frame>

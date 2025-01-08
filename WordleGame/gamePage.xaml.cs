@@ -12,8 +12,10 @@ public partial class gamePage : ContentPage
     private string _playerName;
     private GameViewModel viewModel;
     private HistoryViewModel historyViewModel;
-    Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
-    Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
+    private readonly Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
+    private readonly Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
+    private readonly Color LightTextColor = Color.FromRgb(0, 0, 0);
+    private readonly Color DarkTextColor = Color.FromRgb(255, 255, 255);
 
 
     public string PlayerName
@@ -43,8 +45,61 @@ public partial class gamePage : ContentPage
         // playerName = name;
         // InitializeViewModel();
         historyViewModel.LoadPlayerHistory(PlayerName);
-        bool isDarkTheme = Preferences.Get("IsDarkTheme", true);
-        this.BackgroundColor = isDarkTheme ? LightBackgroundColor : DarkBackgroundColor;
+        setBackgroundColor();
+        SetLabelTextColor();
+    }
+
+    private void setBackgroundColor()
+    {
+        if(viewModel.IsDarkTheme == true)
+        {
+            mainPage.BackgroundColor = DarkBackgroundColor;
+            pageMessage.TextColor = DarkTextColor;
+
+            if(GridContent.Children is Frame frame)
+            {
+                if(frame.Content is Entry entry)
+                {
+                    entry.TextColor = DarkTextColor;
+                    entry.BackgroundColor = LightBackgroundColor;
+                    frame.BackgroundColor = LightBackgroundColor;
+                }
+               
+            }
+        }
+        //if darkmode is turned on
+        else if (viewModel.IsDarkTheme == false)
+        {
+            mainPage.BackgroundColor = LightBackgroundColor;
+            pageMessage.TextColor = LightTextColor;
+
+            foreach (var child in GridContent.Children)
+            {
+                if (child is Frame frame)
+                {
+                    // Set frame background color
+                    frame.BackgroundColor = Colors.White;
+
+                    // Check if the content of the frame is an Entry, and apply the theme
+                    if (frame.Content is Entry entry)
+                    {
+                        entry.TextColor = LightTextColor; // Set text color for Entry
+                        entry.BackgroundColor = Colors.White; // Set background color for Entry
+                    }
+                }
+                else if (child is Label label)
+                {
+                    // Apply text color to labels
+                    label.TextColor = LightTextColor;
+                }
+                else if (child is Button button)
+                {
+                    // Apply text color to buttons
+                    button.TextColor = LightTextColor;
+                }
+            }
+        }
+
     }
 
     private void playerMessage()
@@ -92,7 +147,7 @@ public partial class gamePage : ContentPage
                 var letterEntry = new Entry
                 {
                     //Placeholder = $"Row {i + 1}, Col {j + 1}",
-                    BackgroundColor = Colors.Transparent,
+                    BackgroundColor = Colors.LightBlue,
                     TextColor = Colors.Black,
                     
                     HorizontalOptions = LayoutOptions.Center,
@@ -118,6 +173,7 @@ public partial class gamePage : ContentPage
                 Grid.SetRow(entryFrame, i);
                 Grid.SetColumn(entryFrame, j);
 
+               
             }
         }
 
@@ -433,7 +489,21 @@ public partial class gamePage : ContentPage
 
     private  async void ImageButton_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("Settings");
+        await Shell.Current.GoToAsync($"Settings?playerName={PlayerName}");
+    }
+
+    private void SetLabelTextColor()
+    {
+        if (viewModel.IsDarkTheme)
+        {
+            // Set text color to dark if in dark mode
+            TimerDisplay.TextColor = Colors.White;
+        }
+        else
+        {
+            // Set text color to light if in light mode
+            TimerDisplay.TextColor = Colors.Black;
+        }
     }
 }
 

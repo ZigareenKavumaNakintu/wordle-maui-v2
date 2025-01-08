@@ -6,14 +6,14 @@
              xmlns:viewmodel="clr-namespace:WordleGame"
              
              Title="SavingsPage">
-
+    <ScrollView x:Name="mainPage">
         <VerticalStackLayout>
         <Label x:Name="Heading" Text="GAME STATISTICS" HorizontalOptions="CenterAndExpand"/>
        
         <CollectionView ItemsSource="{Binding playerHistories}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10" Margin="5" BackgroundColor="Transparent" >
+                    <Grid x:Name="historyContent" Padding="10" Margin="5" BackgroundColor="Transparent" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -55,6 +55,7 @@
     
 
 
-<Button x:Name="backButton" Text="Back To GamePage" Clicked="backButton_Clicked"/>
+        <Button x:Name="backButton" Text="Back To GamePage" Clicked="backButton_Clicked"/>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

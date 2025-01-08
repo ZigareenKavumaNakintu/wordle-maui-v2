@@ -11,6 +11,7 @@ namespace WordleGame
 {
     public class HistoryViewModel: INotifyPropertyChanged
     {
+        private GameViewModel _viewModel;
         public ObservableCollection<PlayerHistory> _playerHistories { get; set; }
 
         public ObservableCollection<PlayerHistory> playerHistories
@@ -25,6 +26,7 @@ namespace WordleGame
         }
         public HistoryViewModel() {
             playerHistories = new ObservableCollection<PlayerHistory>();
+
         }
 
 
@@ -98,55 +100,6 @@ namespace WordleGame
             }
         }
 
-        /*
-        //retreiving the data and making the tasks persist between sessions
-       public void LoadPlayerHistory(string playerName)
-        {
-            try
-            {
-                string fileName = $"{playerName}_history.json";
-                string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
-
-                // Log the file path being loaded
-                System.Diagnostics.Debug.WriteLine($"Loading history for player {playerName} from {targetFile}");
-              //  List<PlayerHistory> historyList = new();
-                //if file exists,load it
-                if (File.Exists(targetFile))
-                {
-                    string existingData = File.ReadAllText(targetFile);
-                    System.Diagnostics.Debug.WriteLine($"File content: {existingData}");  // Log file content for debugging
-
-                    var historyList = JsonSerializer.Deserialize<List<PlayerHistory>>(existingData) ?? new List<PlayerHistory>();
-                    playerHistories = new ObservableCollection<PlayerHistory>(historyList);
-
-                    System.Diagnostics.Debug.WriteLine($"Loaded {historyList.Count} history entries.");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine("No history file found.");
-                    //if there is no file , initialize an empty list
-                    playerHistories = new ObservableCollection<PlayerHistory>();
-                }
-
-                
-               // playerHistories = new ObservableCollection<PlayerHistory>(historyList);
-            }
-            //if the json file has been corrupted it shpuld do the following
-            catch (JsonException ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error reading player history: {ex.Message}");
-                
-                // Make sure fileName is available here by defining it at the beginning of the try block
-                string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, $"{playerName}_history.json");
-                if (File.Exists(targetFile))
-                {
-                    File.Delete(targetFile);
-                }
-
-                playerHistories = new ObservableCollection<PlayerHistory>();
-
-            }
-        }*/
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
