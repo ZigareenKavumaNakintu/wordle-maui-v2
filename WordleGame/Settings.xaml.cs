@@ -7,10 +7,7 @@ public partial class Settings : ContentPage
     private GameViewModel _viewModel;
     private bool isDarkTheme;
     public string PlayerName { get; set; }
-    private readonly Color LightBackgroundColor = Color.FromRgb(255, 255, 255);
-    private readonly Color DarkBackgroundColor = Color.FromRgb(0, 0, 0);
-    private readonly Color LightTextColor = Color.FromRgb(0, 0, 0);
-    private readonly Color DarkTextColor = Color.FromRgb(255, 255, 255);
+    
     public Settings()
     {
         InitializeComponent();

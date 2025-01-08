@@ -56,15 +56,30 @@ public partial class gamePage : ContentPage
             mainPage.BackgroundColor = DarkBackgroundColor;
             pageMessage.TextColor = DarkTextColor;
 
-            if(GridContent.Children is Frame frame)
+            foreach (var child in GridContent.Children)
             {
-                if(frame.Content is Entry entry)
+                if (child is Frame frame)
                 {
-                    entry.TextColor = DarkTextColor;
-                    entry.BackgroundColor = LightBackgroundColor;
-                    frame.BackgroundColor = LightBackgroundColor;
+                    // Set frame background color
+                    frame.BackgroundColor = Colors.White;
+
+                    // Check if the content of the frame is an Entry, and apply the theme
+                    if (frame.Content is Entry entry)
+                    {
+                        entry.TextColor = DarkTextColor; // Set text color for Entry
+                        entry.BackgroundColor = Colors.White; // Set background color for Entry
+                    }
                 }
-               
+                else if (child is Label label)
+                {
+                    // Apply text color to labels
+                    label.TextColor = DarkTextColor;
+                }
+                else if (child is Button button)
+                {
+                    // Apply text color to buttons
+                    button.TextColor = DarkTextColor;
+                }
             }
         }
         //if darkmode is turned on
